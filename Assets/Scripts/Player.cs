@@ -12,11 +12,11 @@ private bool isGrounded;
 public Transform groundCheck;
 public float groundRadius = 0.1f;
 public LayerMask groundLayer;
+private Animator animator;
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-
-
+        animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -34,7 +34,11 @@ public LayerMask groundLayer;
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x,jumpForce);
 
         }
-    }
+
+        animator.SetFloat("Speed", MathF.Abs(move));
+        animator.SetFloat("VerticalVelocity", rb2D.linearVelocity.y);
+        animator.SetBool("IsGrounded" , isGrounded);
+    } 
  private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer); 
