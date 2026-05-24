@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +14,9 @@ public Transform groundCheck;
 public float groundRadius = 0.1f;
 public LayerMask groundLayer;
 private Animator animator;
+
+private int coins;
+public TMP_Text textCoins;
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -43,4 +47,16 @@ private Animator animator;
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer); 
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Coin"))
+        {
+        Destroy(collision.gameObject);    
+        coins++;
+        textCoins.text = coins.ToString();
+
+        }
+    }
+
 }
